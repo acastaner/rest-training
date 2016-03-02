@@ -1,0 +1,19 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/artifacts/bin/rest-api/Debug
+/artifacts/bin/rest-api/Release/PublishOutput/approot/packages
+/artifacts/bin/rest-api/Release/PublishOutput/approot/runtimes/dnx-clr-win-x86.1.0.0-rc1-update1
+/artifacts/bin/rest-api/Release/PublishOutput
+/src/PriceList.Lib/project.lock.json
+/src/PriceList.Services/project.lock.json
+/src/rest-api/Properties/PublishProfiles
+/src/rest-api/test.db
+/src/rest-api/pricelist.xlsx
+/src/rest-api/pricelist.csv
+/src/rest-api/avnpl.csv
+/src/rest-api/project.lock.json
+/src/rest-api/rest-api.xproj.user
+/src/rest-api/Project_Readme.html

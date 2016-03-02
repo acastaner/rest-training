@@ -1,0 +1,19 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "PriceList.Services Class Library",
+  "authors": [ "acastaner" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "PriceList.Lib": "",
+        "Folke.Elm": "1.1.0-beta-22361166",
+        "Folke.Elm.Sqlite": "1.1.0-beta-22361166",
+        "FileHelpers" : "3.1.5"
+      }
+    }
+  }
+}
