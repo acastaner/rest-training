@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
-using Swashbuckle.SwaggerGen.Annotations;
 using PriceList.Lib;
 using PriceList.Services.Interfaces;
 using PriceList.Lib.Dto;
@@ -9,7 +8,6 @@ using PriceList.Lib.Mappings;
 namespace rest_api.Controllers
 {
     [Route("api/[controller]")]
-    [Produces("application/json")]
     public class ProductController : Controller
     {
         #region Properties
@@ -29,33 +27,52 @@ namespace rest_api.Controllers
         }
 
         // GET api/values/5
-        [Produces(typeof(ProductDto))]
-        [SwaggerResponse(System.Net.HttpStatusCode.OK, Type = typeof(ProductDto))]
+        // Reads a Product
         [HttpGet("{id}")]
-        public Product Get(int id)
+        public ProductDto Get(int id)
         {
-            return productService.Read(id);
+            return productService.Read(id).ToProductDto();
         }
 
         // POST api/values
-        [Produces(typeof(ProductDto))]
-        [SwaggerResponse(System.Net.HttpStatusCode.OK, Type = typeof(ProductDto))]
+        // Creates a new Product
         [HttpPost]
-        public ProductDto Post([FromBody]ProductDto productDto)
+        public IActionResult Post([FromBody]ProductDto productDto)
         {
-            return productService.Create(productDto.ToProduct()).ToProductDto();
+            ProductDto newProduct = productService.Create(productDto.ToProduct()).ToProductDto();
+            return Created("/api/product/" + newProduct.Id + "/", newProduct);
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // Updates a product
+        [HttpPut]
+        public IActionResult Put([FromBody]ProductDto productDto)
         {
+            try
+            {
+                return Ok(productService.Update(productDto.ToProduct()).ToProductDto());
+            }
+            catch
+            {
+                return HttpNotFound();
+            }
         }
 
         // DELETE api/values/5
+        // Deletes a product
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                productService.Delete(id);
+                return Ok();
+            }
+            catch
+            {
+                return HttpNotFound();
+            }
+
         }
     }
 }

@@ -3,9 +3,9 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.SwaggerGen;
 using Folke.Elm.Sqlite;
 using Folke.Elm;
+using Folke.Elm.Mysql;
 using PriceList.Services.Interfaces;
 using PriceList.Services.Services;
 using PriceList.Lib;
@@ -32,31 +32,12 @@ namespace rest_api
         {
             // Add framework services.
             services.AddMvc();
-            services.AddSwaggerGen();
 
             // Elm service
-            services.AddElm<SqliteDriver>(options => options.ConnectionString = Configuration["Data:IdentityConnection:ConnectionString"]);
+            services.AddElm<MySqlDriver>(options => options.ConnectionString = Configuration["Data:IdentityConnection:ConnectionString"]);
 
             // Price list service
             services.AddScoped<IProductService, ProductService>();
-
-            // Swagger service configuration
-            services.ConfigureSwaggerDocument(options =>
-            {
-                options.SingleApiVersion(new Info
-                {
-                    Version = "v1",
-                    Title = "PriceList Web API",
-                    Description = "A simple REST API to search the Spirent pricelist",
-                    TermsOfService = "None"
-                });
-            });
-
-
-            services.ConfigureSwaggerSchema(options =>
-            {
-                options.DescribeAllEnumsAsStrings = true;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,14 +46,10 @@ namespace rest_api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIISPlatformHandler();
-            app.UseStaticFiles();
             app.UseMvc();
+            app.UseStaticFiles();
 
             session.UpdateSchema(typeof(Product).Assembly);
-
-            app.UseSwaggerGen();
-            app.UseSwaggerUi();
 
             //productService.PopulateData().Wait();
         }

@@ -19,6 +19,7 @@ namespace PriceList.Lib.Mappings
         {
             return new Product
             {
+                Id = productDto.Id,
                 PartNumber = productDto.PartNumber,
                 Name = productDto.Name,
                 Description = productDto.Description,
